@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  adguard:
+    image: adguard/adguardhome:v0.107.52
+    container_name: adguard
+    restart: unless-stopped
+    volumes:
+      - ./AdGuardData:/opt/adguardhome/work # Volume to store AdGuard data persistently
+
+    networks:
+      Network_management_macvlan:
+        ipv4_address: "REPLACE_WITH_STATIC_IP" # Set to a unique IP, e.g., 192.168.1.11
+      Network_management_Internal: {}
+
+# Comments:
+# Default AdGuard Ports:
+# - DNS (UDP/TCP): 53
+# - HTTP Web UI: 80
+# - HTTPS Web UI: 443
+# - Initial setup port: 3000. Visit this port initially to complete setup; afterward, the main UI will be available on ports 80 and 443.
+# - Configure these ports in AdGuard dashboard if needed.
+# Note: Since macvlan is used, the container has a unique IP on the local network, so no port mappings to the host are required.
+
+networks:
+  Network_management_macvlan:
+    external: true
+  Network_management_Internal:
+    internal: true
