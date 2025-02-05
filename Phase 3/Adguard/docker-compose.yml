@@ -3,8 +3,9 @@ services:
     image: adguard/adguardhome:latest  # Use the latest AdGuard Home image
     container_name: adguard  # Name the container "adguard"
     networks:
+      exampleproxybridge:  # Connect to the "exampleproxybridge" network
       examplemacvlan:  # Connect to the "homeserver" network
-        ipv4_address: "192.168.0.10"  # Assign a static IPv4 address within the "examplemacvlan" network (make sure the ip corresponds to your local network ip range and does not overlap, here we used an example ip from the range mentioned in Phase 1)
+        ipv4_address: "192.168.0.10"  # Assign a static IPv4 address within the "examplemacvlan" network (make sure the ip corresponds to your local network ip range and does not overlap)
       external_network:  # Assuming you have an external network for connectivity
     volumes:
       - adguard_work:/opt/adguard/work  # Mount a volume for AdGuard's work directory
@@ -19,5 +20,7 @@ volumes:
 
 networks:
   examplemacvlan:  # Define the "homeserver" network
+    external: true  # Use an existing external network (make sure it is created)
+  exampleproxybridge:  # Define the "exampleproxybridge" network
     external: true  # Use an existing external network (make sure it is created)
   external_network:  # Define another network if needed, e.g., for internet connectivity
