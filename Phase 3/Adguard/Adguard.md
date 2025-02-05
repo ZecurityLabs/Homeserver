@@ -10,28 +10,30 @@ This document outlines the process of deploying AdGuard Home, a privacy-focused 
 ```yaml
 services:
   adguard:
-    image: adguard/adguardhome:latest
-    container_name: adguard
+    image: adguard/adguardhome:latest  # Use the latest AdGuard Home image
+    container_name: adguard  # Name the container "adguard"
     networks:
-      - exampleproxybridge
-      - examplemacvlan
-    ipv4_address: 192.168.0.10
-    environment:
-      TZ: 'Your Timezone'
-    restart: unless-stopped
+      exampleproxybridge:  # Connect to the "exampleproxybridge" network
+      examplemacvlan:  # Connect to the "homeserver" network
+        ipv4_address: "192.168.0.10"  # Assign a static IPv4 address within the "examplemacvlan" network (make sure the ip corresponds to your local network ip range and does not overlap)
+      external_network:  # Assuming you have an external network for connectivity
     volumes:
-      - adguard_work:/opt/adguard/work
-      - adguard_conf:/opt/adguard/conf
+      - adguard_work:/opt/adguard/work  # Mount a volume for AdGuard's work directory
+      - adguard_conf:/opt/adguard/conf  # Mount a volume for AdGuard's config directory
+    environment:
+      - TZ=  # Set the timezone to your preferred value (Country/City)
+    restart: unless-stopped  # Restart the container unless it is stopped manually
 
 volumes:
-  adguard_work:
-  adguard_conf:
+  adguard_work:  # Define the volume for AdGuard's work data
+  adguard_conf:  # Define the volume for AdGuard's configuration files
 
 networks:
-  examplemacvlan:
-    external: true
-  exampleproxybridge:
-    external: true
+  examplemacvlan:  # Define the "homeserver" network
+    external: true  # Use an existing external network (make sure it is created)
+  exampleproxybridge:  # Define the "exampleproxybridge" network
+    external: true  # Use an existing external network (make sure it is created)
+  external_network:  # Define another network if needed, e.g., for internet connectivity
 ```
 
 ### Explanation of the Deployment Configuration
