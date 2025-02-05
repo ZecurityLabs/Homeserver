@@ -74,7 +74,7 @@ sudo usermod -aG docker username
 sudo apt install openssh-server -y
 ```
 
-      ```
+
 ## Conclusion
 We achieved headless server installation, created a user, set a static ip address to our server, installed the minimum services and dependencies (SSH, Docker) and added the user to the docker group. 
 
