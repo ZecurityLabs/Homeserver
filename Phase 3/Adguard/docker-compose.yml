@@ -1,26 +1,26 @@
 services:
   adguard:
-    image: adguard/adguardhome:latest  # Use the latest AdGuard Home image
-    container_name: adguard  # Name the container "adguard"
+    image: adguard/adguardhome:latest  # Image to use for AdGuardHome service
+    container_name: adguard          # Name of the Docker container
     networks:
-      exampleproxybridge:  # Connect to the "exampleproxybridge" network
-      examplemacvlan:  # Connect to the "homeserver" network
-        ipv4_address: "192.168.0.10"  # Assign a static IPv4 address within the "examplemacvlan" network (make sure the ip corresponds to your local network ip range and does not overlap)
-      external_network:  # Assuming you have an external network for connectivity
+      - exampleproxybridge        # Network that this service will connect to (We are using exampleproxybridge as example from phase 3. Networks)
+    ports:
+      - "53:53/tcp"              # Port mapping for DNS over TCP (default port 53)
+      - "53:53/udp"              # Port mapping for DNS over UDP (default port 53)
+      - "80:80/tcp"              # Port mapping for HTTP traffic (default port 80) (we will later delete this line)
+      - "3000:3000/tcp"          # Port mapping for the AdGuard Home management interface (we will later delete this line)
     volumes:
-      - adguard_work:/opt/adguard/work  # Mount a volume for AdGuard's work directory
-      - adguard_conf:/opt/adguard/conf  # Mount a volume for AdGuard's config directory
+      - adguard_work:/opt/adguardhome/work  # Volume for AdGuardHome work directory
+      - adguard_conf:/opt/adguardhome/conf  # Volume for AdGuardHome configuration files
     environment:
-      - TZ=  # Set the timezone to your preferred value (Country/City)
-    restart: unless-stopped  # Restart the container unless it is stopped manually
+      - TZ=         # Configure the timezone (format: 'Continent/City')
+    restart: unless-stopped       # Restart policy, container will always start unless stopped manually
 
+# Named volumes are created within the service definitions to manage them through Docker Compose.
 volumes:
-  adguard_work:  # Define the volume for AdGuard's work data
-  adguard_conf:  # Define the volume for AdGuard's configuration files
+  adguard_work:  # Volume for AdGuardHome work directory
+  adguard_conf:  # Volume for AdGuardHome configuration files
 
 networks:
-  examplemacvlan:  # Define the "homeserver" network
-    external: true  # Use an existing external network (make sure it is created)
-  exampleproxybridge:  # Define the "exampleproxybridge" network
-    external: true  # Use an existing external network (make sure it is created)
-  external_network:  # Define another network if needed, e.g., for internet connectivity
+  exampleproxybridge:           # Define a network named 'exampleproxybridge'
+    external: true              # Use an existing network or create one if it doesn't exist
