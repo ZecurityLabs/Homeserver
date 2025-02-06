@@ -1,0 +1,20 @@
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest 
+    container_name: npm # Name of the container
+    restart: unless-stopped # Restart policy
+    volumes:
+      - npm:/data # Volume mapping for data storage
+      - npm:/etc/letsencrypt # Volume mapping for SSL certificates
+    networks:
+      - exampleproxybridge # Network to connect the container to
+    ports:
+      - '443:443' # Port mapping for HTTPS traffic (default port 443)
+      - '81:81'   # Port mapping for the NPM web interface (default port 81). This will be removed once proxy setup is complete.
+
+networks:
+  exampleproxybridge:
+    external: true # Ensuring that the proxy network is external and already exists
+
+volumes:
+  npm:
