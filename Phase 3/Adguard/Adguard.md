@@ -65,7 +65,7 @@ To configure AdGuard as the primary DNS server on an Ubuntu or Debian machine, u
    dns-nameservers 192.168.0.5
    ```
 3. Save and close the file, then restart networking services with `sudo systemctl restart networking` (or apply changes for newer versions).
-(At this point is a smart idea to replicate this command on your server, so you can use AdGuard as your DNS server, and if possible on your router so your entire local network uses Adguard, as we later will encrypt the traffic as well with DNS over HTTTPS).
+(At this point is a smart idea to replicate this command on your server, so you can use AdGuard as your DNS server, and if possible on your router so your entire local network uses Adguard, as we later will encrypt the traffic as well with DNS over HTTPS).
 
 ## Conclusion
 By following this guide, we have successfully deployed AdGuard Home as a DNS container using Docker Compose, accessible via `http://192.168.0.5:80`. This setup provides an efficient and customizable solution for managing DNS queries while enhancing privacy on both Windows and Linux systems.
