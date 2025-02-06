@@ -73,7 +73,7 @@ By following this guide, we have successfully deployed AdGuard Home as a DNS con
 ## Next Steps
 To further enhance security and manageability of the service:
 - **Reverse Proxy**: Set up a reverse proxy with SSL certificates managed by Traefik, Nginx, or another web server to handle domain access and secure the traffic. This setup involves configuring additional containers and adjusting network configurations to route external requests through AdGuard.
-- **Encryption**: Encrypt traffic to protect against eavesdropping. Though port 53 is reserved for DNS, consider using TLS (Transport Layer Security) encryption for DNS over HTTPS (DoH) or DNS over TLS (DoT).
+- **Encryption**: Encrypt traffic to protect against eavesdropping. Though port 53 is reserved for DNS, consider using TLS (Transport Layer Security) encryption for DNS over HTTPS (DoH).
 
 
 By incorporating these enhancements, we will not only improve security but also optimize usability of AdGuard Home as our DNS service for both administrators and users.
