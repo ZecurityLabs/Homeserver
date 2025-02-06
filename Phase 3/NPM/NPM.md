@@ -45,7 +45,9 @@ By following this guide, we have successfully deployed NGINX Proxy Manager as a 
 ## Next Steps
 To further enhance the usability of the service, consider setting up additional features such as:
 - **SSL Certificates Management**: Automate SSL certificate renewal to ensure uninterrupted service.
-- **Add our first proxies for Adguard Home and Nginx Proxy Manager**: Set up proxies for Adguard Home and Nginx Proxy Manager to manage DNS and proxy settings.
+- **Custom Domain Names**: Configure custom domain names for your proxies to make them more user-friendly and accessible.
 - **DNS over HTTPS (DoH)**: Implement DoH to enhance privacy and security for DNS queries.
+- **Remove port mapping from Adguard and NPM compose files**: This will make the admin dashboards available only through encrypted URLs. Containers will need to restart to apply this change.
+
 
 By incorporating these enhancements, we will not only improve usability but also optimize the functionality of NGINX Proxy Manager as our proxy solution.
