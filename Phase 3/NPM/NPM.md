@@ -29,14 +29,14 @@ volumes:
 ```
 
 ## Explanation of the Deployment Configuration
-1. **Service Definition**: The `app` service is defined using the NGINX Proxy Manager image from Docker Hub. This container listens on multiple networks (`exampleproxybridge`) and is assigned a static IPv4 address within the specified network range.
+1. **Service Definition**: The `app` service is defined using the NGINX Proxy Manager image from Docker Hub.
 2. **Restart Policy**: The container will automatically restart unless it is manually stopped, ensuring minimal downtime.
 3. **Volume Mounts**: Data stored in `/data` (for NPM data) and `/etc/letsencrypt` (for SSL certificates) are persisted using Docker volumes (`npm`), which helps in data persistence across container restarts or updates.
-4. **Networks Configuration**: The service connects to the `exampleproxybridge` network, ensuring that it can communicate with other services on this network. The ports 443 and 81 are mapped to the host machine, allowing access to the NPM web interface and proxy management.
+4. **Networks Configuration**: The service connects to the `exampleproxybridge` network, ensuring that it can communicate with other services on this network. The ports 443 and 81 are mapped to the host machine, allowing access to the NPM web interface and proxy management. After we pair everything together we can remove the port 81 so our admin dashboard is available only through encrypted URL.
 
-## Accessing NGINX Proxy Manager for the First Time
-Upon initial deployment, you can access NPM via a web browser at:
-- **Web Interface**: `http://192.168.0.5:811` - This is where you manage your proxies and SSL certificates.
+## Accessing NGINX Proxy Manager 
+After deployment, you can access NPM via a web browser at:
+- **Web Interface**: `http://192.168.0.5:81` - This is where you manage your proxies and SSL certificates.
 
 
 ## Conclusion
