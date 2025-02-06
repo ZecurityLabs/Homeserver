@@ -1,59 +1,79 @@
-# Setting Up AdGuard Home with Docker Compose
+# Deploying AdGuard DNS with Docker Compose and Configuration Guide
 
-This guide will help you set up AdGuard Home using Docker Compose. AdGuard Home is a DNS sinkhole and adblocker that can be easily managed through a web interface.
+## Introduction and Purpose of a DNS Container
+DNS (Domain Name System) serves as the backbone of the internet, translating human-readable domain names into IP addresses used by computers to locate each other. AdGuard, renowned for its effective ad-blocking solutions, offers an integrated DNS service that can be deployed conveniently using Docker Compose. This setup not only blocks ads and potentially harmful websites but also provides advanced filtering options, ensuring a safer browsing experience.
 
-## Prerequisites
-- [Docker](https://www.docker.com/products/docker-desktop) installed on your machine.
-- Basic understanding of how to use the command line for Docker commands.
+## Deployment of the Container Using the Compose File Example
+This document outlines the process of deploying AdGuard Home, a privacy-focused DNS service, utilizing Docker Compose. The configuration provided utilizes the latest AdGuard Home image from Docker Hub. Below are detailed steps and explanations based on the `docker-compose.yml` file:
 
-## Getting Started
+```yaml
+services:
+  adguard:
+    image: adguard/adguardhome:latest  # Image to use for AdGuardHome service
+    container_name: adguard          # Name of the Docker container
+    networks:
+      - exampleproxybridge        # Network that this service will connect to (We are using exampleproxybridge as example from phase 3. Networks)
+    ports:
+      - "53:53/tcp"              # Port mapping for DNS over TCP (default port 53)
+      - "53:53/udp"              # Port mapping for DNS over UDP (default port 53)
+      - "80:80/tcp"              # Port mapping for HTTP traffic (default port 80) (we will later delete this line)
+      - "3000:3000/tcp"          # Port mapping for the AdGuard Home management interface (we will later delete this line)
+    volumes:
+      - adguard_work:/opt/adguardhome/work  # Volume for AdGuardHome work directory
+      - adguard_conf:/opt/adguardhome/conf  # Volume for AdGuardHome configuration files
+    environment:
+      - TZ=         # Configure the timezone (format: 'Continent/City')
+    restart: unless-stopped       # Restart policy, container will always start unless stopped manually
 
-1. **Clone this repository** (or download the `docker-compose.yml` file directly):
-   ```sh
-   git clone https://github.com/your-repo/adguard-home.git
-   cd adguard-home
+# Named volumes are created within the service definitions to manage them through Docker Compose.
+volumes:
+  adguard_work:  # Volume for AdGuardHome work directory
+  adguard_conf:  # Volume for AdGuardHome configuration files
+
+networks:
+  exampleproxybridge:           # Define a network named 'exampleproxybridge'
+    external: true              # Use an existing network or create one if it doesn't exist
+```
+
+### Explanation of the Deployment Configuration
+1. **Service Definition**: The `adguard` service is defined using the AdGuard Home image from Docker Hub. This container listens on multiple networks (`exampleproxybridge` and `examplemacvlan`) and is assigned a static IPv4 address within the specified network range.
+2. **Environment Variables**: Setting the timezone (`TZ`) can be customized based on your preference. Adjust this according to your local time zone.
+3. **Restart Policy**: The container will automatically restart unless it is manually stopped, ensuring minimal downtime.
+4. **Volume Mounts**: Data stored in `/opt/adguard` (work directory and configuration files) are persisted using Docker volumes (`adguard_work` and `adguard_conf`), which helps in data persistence across container restarts or updates.
+5. **Networks Configuration**: The service connects to the `exampleproxybridge` network maps the ports 80 and 3000 to the host machine, allowing access to the AdGuard Home web interface and setup page.
+
+## Accessing AdGuard for the First Time
+Upon initial deployment, you can access AdGuard Home via a web browser at:
+- **Setup Page**: `http://192.168.0.5:3000` - This is where you set up your user account and configure basic settings such as DNS servers and HTTP dashboard port.
+- **Dashboard After Setup**: Once the setup is complete, navigate to `http://192.168.0.5:80` for accessing the web interface of AdGuard Home.
+
+### Setting Up DNS on Windows
+To set up DNS on a Windows machine to use AdGuard at `192.168.0.5`, follow these steps:
+1. Open **Control Panel** > **Network and Sharing Center**.
+2. Click on your active network connection, then click **Properties**.
+3. Select **Internet Protocol Version 4 (TCP/IPv4)**, and click **Properties**.
+4. Choose **Use the following DNS server addresses**:
+   - Primary: `192.168.0.5`
+   - Secondary: Optionally, you can add a secondary DNS if needed.
+5. Click **OK** to apply these changes.
+
+### Setting Up DNS on Ubuntu/Debian
+To configure AdGuard as the primary DNS server on an Ubuntu or Debian machine, update your network settings with the following commands:
+1. Open terminal and edit the network configuration file: `sudo nano /etc/network/interfaces` (or use `/etc/netplan/*.yaml` for newer versions).
+2. Add or modify the lines to include the DNS server IP:
+   ```bash
+   dns-nameservers 192.168.0.5
    ```
+3. Save and close the file, then restart networking services with `sudo systemctl restart networking` (or apply changes for newer versions).
+(At this point is a smart idea to replicate this command on your server, so you can use AdGuard as your DNS server, and if possible on your router so your entire local network uses Adguard, as we later will encrypt the traffic as well with DNS over HTTTPS).
 
-2. **Run Docker Compose**:
-   ```sh
-   docker-compose up -d
-   ```
-   This command will download the necessary images and start the AdGuard Home service in detached mode.
+## Conclusion
+By following this guide, we have successfully deployed AdGuard Home as a DNS container using Docker Compose, accessible via `http://192.168.0.5:80`. This setup provides an efficient and customizable solution for managing DNS queries while enhancing privacy on both Windows and Linux systems.
 
-3. **Access AdGuard Home for Initial Setup** (only on the first run):
-   - Open your web browser.
-   - Navigate to `http://<your-host-ip>:3000`.
-     - Note: Replace `<your-host-ip>` with the actual IP address of your host machine.
-   - Follow the instructions to complete the setup, including creating an admin account.
+## Next Steps
+To further enhance security and manageability of the service:
+- **Reverse Proxy**: Set up a reverse proxy with SSL certificates managed by Traefik, Nginx, or another web server to handle domain access and secure the traffic. This setup involves configuring additional containers and adjusting network configurations to route external requests through AdGuard.
+- **Encryption**: Encrypt traffic to protect against eavesdropping. Though port 53 is reserved for DNS, consider using TLS (Transport Layer Security) encryption for DNS over HTTPS (DoH) or DNS over TLS (DoT).
 
-4. **Access AdGuard Home after Setup** (regular use):
-   - Navigate to `http://<your-host-ip>:80`.
-     - You can now manage AdGuard Home using the web interface without needing port 3000.
 
-5. **Secure Your Access**:
-   - Once you have set up DNS and a reverse proxy (like Nginx or Apache), you can secure your access by removing unnecessary port mappings from the `docker-compose.yml` file and configuring your reverse proxy to use encrypted URLs.
-     ```yaml
-     ports:
-       - "53:53/tcp"
-       - "53:53/udp"
-       # Remove or comment out these lines if not needed for specific services
-       - "80:80/tcp"
-       - "3000:3000/tcp"
-     ```
-   - Configure your reverse proxy to handle the traffic through encrypted URLs, ensuring that only secure connections are used.
-
-## Configuration Details
-
-- **Container Name**: `adguard`
-- **Image**: `adguard/adguardhome:latest`
-- **Networks**: Connects to a network named `exampleproxybridge`. Ensure this network is defined elsewhere in your Docker Compose setup or create it as needed.
-- **Ports**:
-  - DNS over TCP and UDP on ports 53.
-  - HTTP traffic initially mapped to port 80, which will be removed later for enhanced security.
-  - The AdGuard Home management interface initially accessible at port 3000, also planned to be removed after setup completion.
-- **Volumes**:
-  - `adguard_work` and `adguard_conf` volumes are used for persistent storage of AdGuardHome data and configurations respectively.
-- **Environment Variables**: You can optionally set the timezone using `TZ`.
-- **Restart Policy**: The container will always start unless stopped manually, configured with `restart: unless-stopped`.
-
-By following these steps, you will have AdGuard Home up and running efficiently while securing your access through encrypted URLs.
+By incorporating these enhancements, we will not only improve security but also optimize usability of AdGuard Home as our DNS service for both administrators and users.
