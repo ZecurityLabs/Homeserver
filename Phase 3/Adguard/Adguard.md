@@ -36,11 +36,11 @@ networks:
 ```
 
 ### Explanation of the Deployment Configuration
-1. **Service Definition**: The `adguard` service is defined using the AdGuard Home image from Docker Hub. This container listens on multiple networks (`exampleproxybridge` and `examplemacvlan`) and is assigned a static IPv4 address within the specified network range.
+1. **Service Definition**: The `adguard` service is defined using the AdGuard Home image from Docker Hub. 
 2. **Environment Variables**: Setting the timezone (`TZ`) can be customized based on your preference. Adjust this according to your local time zone.
 3. **Restart Policy**: The container will automatically restart unless it is manually stopped, ensuring minimal downtime.
-4. **Volume Mounts**: Data stored in `/opt/adguard` (work directory and configuration files) are persisted using Docker volumes (`adguard_work` and `adguard_conf`), which helps in data persistence across container restarts or updates.
-5. **Networks Configuration**: The service connects to the `exampleproxybridge` network maps the ports 80 and 3000 to the host machine, allowing access to the AdGuard Home web interface and setup page.
+4. **Volume Mounts**: Data stored in `/opt/adguardhome/` (work directory and configuration files) are persisted using Docker volumes (`adguard_work` and `adguard_conf`), which helps in data persistence across container restarts or updates.
+5. **Networks Configuration**: The service connects to the `exampleproxybridge` network maps the ports 80 and 3000 to the host machine, allowing access to the AdGuard Home web interface and setup page. After we configure our DNS and reverse proxy we can remove those ports so Adguard Home is only accessible through an encrypted URL.
 
 ## Accessing AdGuard for the First Time
 Upon initial deployment, you can access AdGuard Home via a web browser at:
