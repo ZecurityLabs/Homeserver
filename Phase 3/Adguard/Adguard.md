@@ -9,7 +9,7 @@ This document outlines the process of deploying AdGuard Home, a privacy-focused 
 ```yaml
 services:
   adguard:
-    image: adguard/adguardhome:latest  # Image to use for AdGuardHome service
+    image: adguard/adguardhome:latest 
     container_name: adguard          # Name of the Docker container
     networks:
       - exampleproxybridge        # Network that this service will connect to (We are using exampleproxybridge as example from phase 3. Networks)
@@ -24,14 +24,12 @@ services:
     environment:
       - TZ=         # Configure the timezone (format: 'Continent/City')
     restart: unless-stopped       # Restart policy, container will always start unless stopped manually
-
-# Named volumes are created within the service definitions to manage them through Docker Compose.
 volumes:
-  adguard_work:  # Volume for AdGuardHome work directory
-  adguard_conf:  # Volume for AdGuardHome configuration files
+  adguard_work:  
+  adguard_conf:  
 
 networks:
-  exampleproxybridge:           # Define a network named 'exampleproxybridge'
+  exampleproxybridge:          
     external: true              # Use an existing network or create one if it doesn't exist
 ```
 
