@@ -15,12 +15,14 @@ Next, access the NPM admin dashboard at `http://192.168.0.5:81`. You need to per
 1. **Insert SSL Certificate:** Add your domain's SSL certificate for `mydomain.com` and `*.mydomain.com`. Use DNS challenge on Let's Encrypt, generate a DNS API token if necessary, and paste it into the API text field.
 2. **Restrict Access:** Create an access group named "LocalUsers" with local IP range (e.g., `192.168.0.0/24`). Save this access list.
 3. **Add Proxies:** In NPM, go to "Hosts / Proxy Hosts". Configure proxies for AdGuard and NPM:
-- **NPM Proxy**
+   
+**NPM Proxy**
 - Domain Name: `npm.mydomain.com`
 - Scheme: `http`, Hostname: `npm`, Port: 81
 - Access List: LocalUsers
 - Enable all toggles except WebSocket. Move to the SSL tab, select the SSL certificate, and enable all toggles.
-- **AdGuard Proxy**
+
+**AdGuard Proxy**
 - Domain Name: `adguard.mydomain.com`
 - Scheme: `http`, Hostname: `adguard`, Port: 81 (We will modify this later to use HTTPS)
 - Access List: LocalUsers
