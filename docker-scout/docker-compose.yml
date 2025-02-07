@@ -1,0 +1,13 @@
+services:
+  scout:
+    image: docker/scout:latest
+    container_name: docker-scout
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  proxy:
+    external: true

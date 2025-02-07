@@ -1,0 +1,32 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: unless-stopped
+    user: "1000:1000" # Required to bind to privileged ports
+    volumes:
+      - grafana:/prometheus  # Use the same volume for Prometheus data
+      - grafana:/etc/prometheus  # Use the same volume for Prometheus config, including prometheus.yml
+    networks:
+      - proxy
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    user: "1000:1000" # Required to bind to privileged ports
+    volumes:
+      - grafana:/var/lib/grafana  # Use the same volume for Grafana data
+    environment:
+      - GF_SECURITY_ADMIN_USER=zefuros
+      - GF_SECURITY_ADMIN_PASSWORD=Erfq*6g68VgaLzG4Cwc@NGhJG26QnveTUst9!w
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  grafana:
+    external: true

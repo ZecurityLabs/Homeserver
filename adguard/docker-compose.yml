@@ -1,0 +1,27 @@
+services:
+  adguard:
+    image: adguard/adguardhome:latest
+    container_name: adguard
+    networks:
+      - proxy
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+    
+  
+    volumes:
+      - adguard_work:/opt/adguardhome/work
+      - adguard_conf:/opt/adguardhome/conf
+    environment:
+      - TZ=Europe/Athens
+    restart: unless-stopped
+
+volumes:
+  adguard_work:
+    external: true
+  adguard_conf:
+    external: true
+networks:
+  proxy:
+    external: true
+

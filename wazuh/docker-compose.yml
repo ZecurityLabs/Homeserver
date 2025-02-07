@@ -1,0 +1,42 @@
+services:
+  wazuh-server:
+    image: "wazuh/wazuh-manager:stable"
+    container_name: "wazuh-server"
+    networks:
+      - proxy
+    volumes:
+      - wazuh-data:/var/ossec
+    labels:
+      co.elastic.logs/module: wazuh
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: "elasticsearch"
+    networks:
+      - proxy
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+    labels:
+      co.elastic.logs/module: elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.10.2
+    container_name: "kibana"
+    networks:
+      - proxy
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    labels:
+      co.elastic.logs/module: kibana
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  wazuh-data:
+  es-data:

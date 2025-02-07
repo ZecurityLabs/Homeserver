@@ -1,0 +1,61 @@
+networks:
+  proxy:
+    external: true  # Ensure this matches your proxy network setup
+
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - ollama:/root/.ollama
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - openwebui:/app/backend/data
+
+
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - n8n:/home/node/.n8n
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - qdrant:/qdrant/storage
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: aiadmin
+      POSTGRES_PASSWORD: ycwHJ3hw*fn-B9LsmdPwqWF!DBvKZnp!CM*.d9
+      POSTGRES_DB: aistack
+    networks:
+      - proxy
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  ollama:
+  openwebui:
+  n8n:
+  qdrant:
+  postgres:

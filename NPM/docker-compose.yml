@@ -1,0 +1,22 @@
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: npm
+    restart: unless-stopped
+    volumes:
+       - npm:/data
+       - npm:/etc/letsencrypt
+    networks: 
+        - proxy
+        - kasm_default_network
+    ports:
+      - '443:443'
+     
+networks:
+  proxy:
+    external: true  # Ensuring proxy network is external
+  kasm_default_network:
+    external: true  # Ensuring proxy network is external  
+ 
+volumes:
+  npm:

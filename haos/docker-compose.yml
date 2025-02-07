@@ -1,0 +1,19 @@
+services:
+  homeassistant:
+    container_name: haos
+    image: homeassistant/home-assistant:stable
+    restart: unless-stopped
+    networks:
+      proxy: {}  # Adding the proxy network
+
+
+    volumes:
+      - haos:/config  # updated path
+    environment:
+      - TZ=Europe/Athens
+
+networks:
+  proxy:
+    external: true
+volumes:
+  haos:

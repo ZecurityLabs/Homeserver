@@ -1,0 +1,16 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    networks:
+      - proxy
+    volumes:
+      - portainer:/data           # Persistent data for Portainer
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker socket for Docker API/WebSocket
+      
+networks:
+  proxy:
+    external: true  # Make sure the proxy network is external
+volumes:
+  portainer:
