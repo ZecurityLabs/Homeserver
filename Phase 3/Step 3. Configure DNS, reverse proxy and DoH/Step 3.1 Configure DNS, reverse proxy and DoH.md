@@ -27,6 +27,7 @@ Next, access the NPM admin dashboard at `http://192.168.0.5:81`. You need to per
 - Scheme: `http`, Hostname: `adguard`, Port: 81 (We will modify this later to use HTTPS)
 - Access List: LocalUsers
 - Enable all toggles except WebSocket. Move to the SSL tab, select the SSL certificate, and enable all toggles.
+
 **Note:** When using Chrome for accessing services, subdomains like `dns.mydomain.com` or `adguard.mydomain.com` may trigger a warning due to security settings. You can use workarounds by renaming URLs temporarily.
 
 ## Step 3: Testing the Configuration
