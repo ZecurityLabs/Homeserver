@@ -7,7 +7,7 @@ For this project, we will utilizing my old laptop which has:
 - Reliable Ethernet port for network connectivity
 - SSD for faster loading times and storage.
 ## OS Choice
-We will for Debian 12 due to its stability and extensive support lifecycle, despite CentOS being a popular choice. However, considering the end of life cycle for CentOS, I decided on a more future-proof option by choosing Debian.
+We will opt for Debian 12 due to its stability and extensive support lifecycle, despite CentOS being a popular choice. However, considering the end of life cycle for CentOS, I decided on a more future-proof option by choosing Debian.
 ## Headless Mode
 Given the focus on cybersecurity, we shall install the server in headless mode. This decision significantly reduces the attack surface since there's no graphical interface. While at first, it might have been useful to start with a GUI for easier setup (especially when learning), the reduced interface is beneficial in the long run. We will later access Docker containers and other administrative tools through client browsers as part of our project.
 
