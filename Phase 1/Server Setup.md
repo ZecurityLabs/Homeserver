@@ -65,7 +65,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 ```
 7. **Add User to Docker Group**:
-- Add your user to the `docker` group to allow non-root usage:
+- Add our user to the `docker` group to allow non-root usage:
 ```bash
 sudo usermod -aG docker username
 ```
