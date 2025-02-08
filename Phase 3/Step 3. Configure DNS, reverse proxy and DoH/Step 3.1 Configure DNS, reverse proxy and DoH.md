@@ -4,17 +4,18 @@
 On the following steps, there will be some back-and-forth between our AdGuard and NPM admin panels, but the order must be retained otherwise we risk losing access to the services before finishing the configuration. It is highly recommended to open both services in separate browser tabs for ease of navigation.
 
 ## Step 1: Configure DNS Rewrites in AdGuard
-Assuming you have started and set up your AdGuard container with initial setup, you can now access the admin dashboard at `http://192.168.0.5:80`. You should see that AdGuard is working as expected, displaying metrics and blocked DNS requests (assuming a client is configured to use `192.168.0.5`).
-Navigate to the "Filters" tab and go to "DNS rewrites". Add two entries for your domain and wildcard:
+Assuming we have started and set up our AdGuard container with initial setup, we can now access the admin dashboard at `http://192.168.0.5:80`. We should see that AdGuard is working as expected, displaying metrics and blocked DNS requests (assuming a client is configured to use `192.168.0.5`).
+Let's navigate to the "Filters" tab and go to "DNS rewrites". Add two entries for our domain and wildcard:
 - `mydomain.com - 192.168.0.5`
 - `*.mydomain.com - 192.168.0.5`
+
 **Hint:** If you encounter issues saving the entry, check for spaces at the start or end of the IP address.
 
 ## Step 2: Configure Reverse Proxy in NPM
-Next, access the NPM admin dashboard at `http://192.168.0.5:81`. You need to perform three tasks:
-1. **Insert SSL Certificate:** Add your domain's SSL certificate for `mydomain.com` and `*.mydomain.com`. Use DNS challenge on Let's Encrypt, generate a DNS API token if necessary, and paste it into the API text field.
+Next, we will access the NPM admin dashboard at `http://192.168.0.5:81`. We need to perform three tasks:
+1. **Insert SSL Certificate:** Add our domain's SSL certificate for `mydomain.com` and `*.mydomain.com`. Use DNS challenge on Let's Encrypt, generate a DNS API token if necessary, and paste it into the API text field.
 2. **Restrict Access:** Create an access group named "LocalUsers" with local IP range (e.g., `192.168.0.0/24`). Save this access list.
-3. **Add Proxies:** In NPM, go to "Hosts / Proxy Hosts". Configure proxies for AdGuard and NPM:
+3. **Add Proxies:** In NPM, navigate to "Hosts / Proxy Hosts". Configure proxies for AdGuard and NPM:
    
 **NPM Proxy**
 - Domain Name: `npm.mydomain.com`
@@ -28,23 +29,24 @@ Next, access the NPM admin dashboard at `http://192.168.0.5:81`. You need to per
 - Access List: LocalUsers
 - Enable all toggles except WebSocket. Move to the SSL tab, select the SSL certificate, and enable all toggles.
 
-**Note:** When using Chrome for accessing services, subdomains like `dns.mydomain.com` or `adguard.mydomain.com` may trigger a warning due to security settings. You can use workarounds by renaming URLs temporarily.
+**Note:** When using Chrome for accessing services, subdomains like `dns.mydomain.com` or `adguard.mydomain.com` may trigger a warning due to security settings. We can use workarounds by renaming URLs temporarily. But for simplicity we will use `adguard.mydomain.com` and `npm.mydomain.com`.
 
 ## Step 3: Testing the Configuration
-Access AdGuard at `https://adguard.mydomain.com` and NPM at `https://npm.mydomain.com`. Verify that you can log in without issues. If access is denied, check server firewall rules, client DNS configuration, and flush DNS on the client machine.
+Let's access AdGuard at `https://adguard.mydomain.com` and NPM at `https://npm.mydomain.com`. Verify that we can log in without issues. If access is denied, we can check server firewall rules, client DNS configuration, and flush DNS on the client machine.
 
 ## Step 4: Enable DoH on AdGuard
-Go to "Settings / Encryption Settings" and enable encryption settings. Configure Server Name as `adguard.mydomain.com`, redirect to HTTPS automatically, and insert the SSL certificate. Save changes, which will temporarily disable access to the admin panel.
+Back on Adguard Admin panel navigate to "Settings / Encryption Settings" and enable encryption settings. Configure Server Name as `adguard.mydomain.com`, redirect to HTTPS automatically, and insert the SSL certificate. Save changes, which will temporarily disable access to the admin panel. This is expected behavior.
+## Step 5: Update NPM and Client DNS Settings
 Update the NPM proxy settings for AdGuard: change scheme to `https` and port to 443. Update client DNS settings to enable DoH and use the URL `https://adguard.mydomain.com/dns-query`.
 
-## Step 5: Further Testing
+## Step 6: Further Testing
 Ensure all services are accessible over HTTPS, and clients configure DoH properly.
 
-## Step 6: Clean Up
-Update Docker compose files to remove all port mappings (except port 443 on NPM). Restart containers, and ensure AdGuard and NPM are not accessible via `http://192.168.0.5:80` or `http://192.168.0.5:81`. If issues persist, clear browser cache.
+## Step 7: Clean Up
+Update Docker compose files to remove all port mappings (except port 443 on NPM). Restart containers, and ensure AdGuard and NPM are not accessible via `http://192.168.0.5:80` or `http://192.168.0.5:81`. If issues persist, clear browser cache. We can also go back to our server firewall and allow only port 443 to secure our server further.
 
 ## Step 7: Celebration
-You have secured your traffic with encrypted DNS over HTTPS, restricted access to local IPs only, and closed unnecessary ports on the server.
+We have secured our traffic with encrypted DNS over HTTPS, restricted access to local IPs only, and closed unnecessary ports on the server.
 
 ## How It Works
 Regarding the query about exposing AdGuard's IP through port 443 after enabling DNS over HTTPS (DoH), it is important to clarify that this does not happen. This was a deliberate security measure implemented in our setup. 

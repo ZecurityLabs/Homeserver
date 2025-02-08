@@ -55,9 +55,12 @@ In this phase, we will enhance the security of our local access by implementing 
     ```bash
     sudo ufw default deny incoming
     sudo ufw default allow outgoing
-    sudo ufw allow from 192.168.0.0/24 to any port 2222
+    sudo ufw allow from 192.168.0.0/24 to any port
     sudo ufw status verbose
     ```
 
 ## Conclusion
 We have successfully enhanced the security of our local access by configuring SSH for secure remote access, managing firewall settings with UFW, and ensuring that only authorized users can connect to our server. These steps have significantly improved the overall security posture of our system.
+
+## Phase 2 Reflection
+This phase was also a short one, as i am already familiar with the linux firewall and how to establish SSH connections. I did had to learn how to implement public key authentication, which was a new concept for me. I also learned how to configure UFW to allow only specific IP ranges to connect to the server. Network security was not a new concept for me, but the hands on practice was great and fun 

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Now that we have secured access to our services, even for local access, let's deploy some services and applications that we can actually start configuring and using daily. Below, I will mention some of the applications I host on my homeserver with a brief description of their scope. Additionally, I will include some template compose files in the same directory named after their use case. The compose files will have port mappings but are intended only as references for adding your proxy hosts on NPM. You can delete the port mappings before even building the container for the first time, as long as you use the correct ports on your NPM proxy host. It is also recommended to test each connection and proper application behavior before moving to the next one.
+Now that we have secured access to our services, even for local access, let's deploy some services and applications that we can actually start configuring and using daily. Below, I will mention some of the applications I host on my homeserver with a brief description of their scope. Additionally, I will include some template compose files in the same directory named after their use case. The compose files will have port mappings but are intended only as references for adding your proxy hosts on NPM. We can delete the port mappings before even building the container for the first time, as long as we use the correct ports on our NPM proxy host. It is also recommended to test each connection and proper application behavior before moving to the next one.
 
 ## My Services Tour
 

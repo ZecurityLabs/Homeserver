@@ -35,8 +35,8 @@ volumes:
 4. **Networks Configuration**: The service connects to the `exampleproxybridge` network, ensuring that it can communicate with other services on this network. The ports 443 and 81 are mapped to the host machine, allowing access to the NPM web interface and proxy management. After we pair everything together we can remove the port 81 so our admin dashboard is available only through encrypted URL.
 
 ## Accessing NGINX Proxy Manager 
-After deployment, you can access NPM via a web browser at:
-- **Web Interface**: `http://192.168.0.5:81` - This is where you manage your proxies and SSL certificates.
+After deployment, we can access NPM via a web browser at:
+- **Web Interface**: `http://192.168.0.5:81` - This is where we manage your proxies and SSL certificates.
 
 
 ## Conclusion

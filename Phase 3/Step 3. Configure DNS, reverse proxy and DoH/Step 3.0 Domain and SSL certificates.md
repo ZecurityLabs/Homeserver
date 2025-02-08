@@ -1,7 +1,7 @@
 # Step 3.0 Domain and SSL Certificates
 
 ## Introduction
-This step focuses on securing your network with a domain name and an SSL certificate. A domain is essential for accessing your services remotely, and using a free or self-signed certificate can lead to security risks and manual maintenance. We'll discuss the importance of separating domain hosting from email and website hosting.
+This step focuses on securing our network with a domain name and an SSL certificate. A domain is essential for accessing our services remotely, and using a self-signed certificate can lead to security risks and manual maintenance. We'll discuss the importance of separating domain hosting from email and website hosting.
 
 ### Key Points:
 1. **Domain Requirement**: Ensure you have a real domain name even if it's free for convenience and auto-update capabilities of SSL certificates.
@@ -13,7 +13,7 @@ This step focuses on securing your network with a domain name and an SSL certifi
 - **Paid Domain Registrars**: GoDaddy, Namecheap (includes email hosting options)
 
 ## SSL Certificates:
-Generating a free or paid SSL certificate varies based on your domain registrar. Focus on wildcards for ease of use and managing subdomains. The three main ways to integrate SSL are through file uploads, manual text entry, and DNS challenge with API keys.
+Generating a free or paid SSL certificate varies based on your domain registrar. The focus will be on wildcards for ease of use and managing subdomains. And the three main ways to integrate SSL are through file uploads, manual text entry, and DNS challenge with API keys.
 
 ### Wildcard Example:
 - **Zone Setup**: For `adguard.mydomain.com`, the zone is `adguard.mydomain.com`. Adding a wildcard like `*.mydomain.com` allows all subdomains to be covered without extra configuration.

@@ -4,7 +4,9 @@
 
 From an early age, I've been passionate about technology. This interest led me to build my first gaming PC during high school. Little did I know that this hobby would later shape the course of my career. After struggling to enter traditional university programs, I decided to turn my passion into a freelance business. Over the years, I have grown from building custom PCs to becoming a respected figure in the technology support field.
 
-For over ten years, I've worked as a computer and network technician, offering services such as custom PC builds, malware removal, network setup and administration, and consulting for two internet cafes. My expertise has also been sought by renowned companies where I've held various positions:
+## freelancer Computer and Network Technician
+
+For over ten years, I've worked as a computer and network technician, offering services such as custom PC builds, malware removal, network setup and administration, and consulting for two internet cafe brands. My expertise has also been sought by renowned companies where I've held various positions:
 
 ## Technical Consultant at a Major Phone Company
 

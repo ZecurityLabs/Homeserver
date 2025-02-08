@@ -25,7 +25,7 @@ docker network create \
 **Note:** This command creates a basic bridge network without additional configuration options for IP addressing, as it is expected that traffic will be managed by an external reverse proxy. We will expose specific ports to the host ip and after we configure our dns and reverse proxy we can revisit the compose files delete the port mappings so our services are no longer accessible through the host ip.
 
 **Usage:**  
-All other containers in the project should connect to `exampleproxybridge`. This setup ensures that these containers do not expose any ports directly to the outside world, instead relying on a central reverse proxy (not covered here) for all inbound and outbound traffic encryption and management.
+All relevant containers in the project should connect to `exampleproxybridge`. This setup ensures that these containers do not expose any ports directly to the outside world, instead relying on a central reverse proxy (not covered here) for all inbound and outbound traffic encryption and management.
 
 # Conclusion
 ## Summary of Docker Networks Configuration

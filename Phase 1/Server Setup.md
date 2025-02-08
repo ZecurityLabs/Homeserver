@@ -1,15 +1,16 @@
 # Setting Up a Barebone Server
 ## Hardware Overview
-For this project, I utilized my old laptop which has:
+For this project, we will utilizing my old laptop which has:
 - No dedicated GPU
 - Modest RAM (~8GB)
 - An older CPU
 - Reliable Ethernet port for network connectivity
 - SSD for faster loading times and storage.
 ## OS Choice
-I opted for Debian 12 due to its stability and extensive support lifecycle, despite CentOS being a popular choice. However, considering the end of life cycle for CentOS, I decided on a more future-proof option by choosing Debian.
+We will for Debian 12 due to its stability and extensive support lifecycle, despite CentOS being a popular choice. However, considering the end of life cycle for CentOS, I decided on a more future-proof option by choosing Debian.
 ## Headless Mode
-Given the focus on cybersecurity, I chose to install the server in headless mode. This decision significantly reduces the attack surface since there's no graphical interface. While at first, it might have been useful to start with a GUI for easier setup (especially when learning), the reduced interface is beneficial in the long run. We will later access Docker containers and other administrative tools through client browsers as part of our project.
+Given the focus on cybersecurity, we shall install the server in headless mode. This decision significantly reduces the attack surface since there's no graphical interface. While at first, it might have been useful to start with a GUI for easier setup (especially when learning), the reduced interface is beneficial in the long run. We will later access Docker containers and other administrative tools through client browsers as part of our project.
+
 ## Installation Steps (Pseudo Code)
 
 1. **Set Static IP Address**:
@@ -79,3 +80,7 @@ sudo apt install openssh-server -y
 We achieved headless server installation, created a user, set a static ip address to our server, installed the minimum services and dependencies (SSH, Docker) and added the user to the docker group. 
 
 On Phase 2 we will secure our access to the server and take some security procautions.
+
+## Phase 1 Reflection
+Phase 1 was pretty straightforward on the goals and how to reach them. My network and linux background made this phase pretty short and easy. As I did not have to look up much information to complete this phase.
+ 
