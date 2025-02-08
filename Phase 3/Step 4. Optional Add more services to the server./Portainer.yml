@@ -1,0 +1,17 @@
+services:
+  portainer:
+    image: portainer/portainer-ce:latest 
+    container_name: portainer   # Name of the container 
+    restart: unless-stopped    # Restart policy
+    networks:
+      - exampleproxybridge   # Network to connect to
+    ports:
+      - "9000:9000"             # Portainer web interface port (use this port to configure the proxy host)
+    volumes:
+      - portainer:/data           # Persistent data for Portainer
+      - /var/run/docker.sock:/var/run/docker.sock  # Docker socket for Docker API/WebSocket
+     
+networks:
+  exampleproxybridge: true  # Make sure the proxy network is external
+volumes:
+  portainer:

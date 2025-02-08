@@ -1,0 +1,72 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama # You can change this to any name you like
+    restart: unless-stopped # Restart policy
+    networks:
+      - secret  # Connect to the secret network
+    volumes:
+      - ollama:/root/.ollama # Persistent data for Ollama
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main 
+    container_name: openwebui   # Name of the container
+    restart: unless-stopped  # Restart policy
+    networks:
+      - exampleproxybridge # Network to connect to
+      - secret  # Connect to the secret network
+    ports:
+      - "8080:8080" # Open Web UI web interface port (use this port to configure the proxy host)
+      - "8081:8081" # Open Web UI API port
+    volumes:
+      - openwebui:/app/backend/data # Persistent data for Open Web UI
+
+
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n # Name of the container
+    restart: unless-stopped # Restart policy
+    networks:
+      - exampleproxybridge # Network to connect to
+      - secret  # Connect to the secret network
+    ports:
+      - "5678:5678" # n8n web interface port (use this port to configure the proxy host)
+    volumes:
+      - n8n:/home/node/.n8n # Persistent data for n8n
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant # Name of the container
+    restart: unless-stopped # Restart policy
+    networks:
+      - secret  # Connect to the secret network
+    volumes:
+      - qdrant:/qdrant/storage # Persistent data for Qdrant
+
+  postgres:
+    image: postgres
+    container_name: postgres # Name of the container
+    restart: unless-stopped   # Restart policy
+    environment:
+      POSTGRES_USER: user # Set the username for the database
+      POSTGRES_PASSWORD: password # Set the password for the database
+      POSTGRES_DB: database # Set the database name
+    networks:
+      - exampleproxybridge # Network to connect to
+      - secret # Connect to the secret network
+    ports:
+      - "5432:5432" # PostgreSQL port (use this port to configure the proxy host)
+    volumes:
+      - postgres:/var/lib/postgresql/data # Persistent data for PostgreSQL
+
+volumes:
+  ollama:
+  openwebui:
+  n8n:
+  qdrant:
+  postgres:
+
+networks:
+ exampleproxybridge:
+ secret:
+    external: true  # Ensure this matches your proxy network setup

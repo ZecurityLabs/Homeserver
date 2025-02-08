@@ -1,0 +1,19 @@
+services:
+  homeassistant:
+    container_name: haos # Name of the container
+    image: homeassistant/home-assistant:stable
+    restart: unless-stopped # Restart policy
+    networks:
+     - exampleproxybridge # Network to connect to
+    volumes:
+      - haos:/config  # Persistent data for Home Assistant
+    ports:
+      - 8123:8123  # Home Assistant web interface port (use this port to configure the proxy host)
+    environment:
+      - TZ= # Set the timezone for the container 
+
+networks:
+  exampleproxybridge:
+    external: true
+volumes:
+  haos:

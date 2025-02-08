@@ -1,0 +1,35 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus # Name of the container
+    restart: unless-stopped  # Restart policy
+    volumes:
+      - grafana:/prometheus  # Use the same volume for Prometheus data
+      - grafana:/etc/prometheus  # Use the same volume for Prometheus config, including prometheus.yml
+    networks:
+      - exampleproxybridge # Network to connect to
+    ports: 
+      - "9090:9090" # Prometheus web interface port (use this port to configure the proxy host)
+
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana # Name of the container
+    restart: unless-stopped # Restart policy
+    volumes:
+      - grafana:/var/lib/grafana  # Use the same volume for Grafana data
+    environment:
+      - GF_SECURITY_ADMIN_USER=Username # Grafana admin username (change this to your desired username)
+      - GF_SECURITY_ADMIN_PASSWORD=Password   # Grafana admin password (change this to your desired password)
+    networks:
+      - exampleproxybridge # Network to connect to
+    ports:
+        - "3000:3000" # Grafana web interface port (use this port to configure the proxy host)
+
+networks:
+  exampleproxybridge:
+    external: true
+
+volumes:
+  grafana:
+    external: true

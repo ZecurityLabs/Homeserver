@@ -1,0 +1,21 @@
+services:
+  homarr:
+    image: ghcr.io/ajnart/homarr:latest
+    container_name: homarr  # Name of the container
+    restart: unless-stopped   # Restart policy
+    networks:
+      - exampleproxybridge # Network to connect to
+    ports:
+      - 7575:7575  # Homarr web interface port (use this port to configure the proxy host)
+    volumes:
+      - homarr:/app/data/configs  # Persistent data for Homarr
+      - homarr:/app/public/icons # Persistent data for Homarr icons
+      - homarr:/data  # Persistent data for Homarr  
+      - /var/run/docker.sock:/var/run/docker.sock # Docker socket for Docker API/WebSocket access
+    environment:
+      - TZ= # Set the timezone for the container
+      
+networks:
+  exampleproxybridge: true
+volumes:
+  homarr:
