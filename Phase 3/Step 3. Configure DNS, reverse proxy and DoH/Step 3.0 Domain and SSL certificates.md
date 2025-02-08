@@ -4,7 +4,7 @@
 This step focuses on securing our network with a domain name and an SSL certificate. A domain is essential for accessing our services remotely, and using a self-signed certificate can lead to security risks and manual maintenance. We'll discuss the importance of separating domain hosting from email and website hosting.
 
 ### Key Points:
-1. **Domain Requirement**: Ensure you have a real domain name even if it's free for convenience and auto-update capabilities of SSL certificates.
+1. **Domain Requirement**: Ensure that we have a real domain name even if it's free for convenience and auto-update capabilities of SSL certificates.
 2. **Service Separation**: Understand that domains, emails, and websites are separate services unless bundled together.
 3. **SSL Certificates**: Use wildcard certificates to manage subdomains easily. There are three main methods to integrate SSL into your service: direct file upload, manual text entry, or DNS challenge using an API key.
 
