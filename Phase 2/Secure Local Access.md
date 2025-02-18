@@ -61,17 +61,17 @@ In this phase, we will enhance the security of our local access by implementing 
 
 ## Disabling systemd-resolved for Adguard Home on Debian
 
-Most modern Debian-based distributions use `systemd-resolved` as a built-in DNS resolver that listens on port 53. To avoid conflicts when running a Adguard Home container, you need to disable this service.
+Most modern Debian-based distributions use `systemd-resolved` as a built-in DNS resolver that listens on port 53. To avoid conflicts when running a Adguard Home container, we need to disable this service.
 
 ### Steps to Disable systemd-resolved
 
 1. **Access the Debian Server Command Line**  
-   Connect to your Debian server via SSH as the root user.
+   Connect to our Debian server via SSH.
 
 2. **Modify systemd-resolved Configuration**  
    Open the configuration file:
    ```bash
-   nano /etc/systemd/resolved.conf
+   sudo nano /etc/systemd/resolved.conf
    ```
    Locate the following line:
    ```
@@ -81,7 +81,7 @@ Most modern Debian-based distributions use `systemd-resolved` as a built-in DNS 
    ```
    DNSStubListener=no
    ```
-   Next, specify your AdGuard container as the DNS provider by finding the `[Resolve]` section and adding or modifying the following line:
+   Next, specify our AdGuard container as the DNS provider by finding the `[Resolve]` section and adding or modifying the following line:
    ```
    DNS=192.168.0.05
    ```
