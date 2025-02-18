@@ -1,0 +1,20 @@
+services:
+  urbackup:
+    image: uroni/urbackup-server:latest
+    container_name: urbackup
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Athens # Enter your timezone
+    volumes:
+      - urbackup_data:/var/urbackup         # Persistent database folder
+      - urbackup_backups:/backups           # Persistent backup storage
+    networks:
+      - proxy
+
+volumes:
+  urbackup_data:    # Define persistent volume for the database
+  urbackup_backups: # Define persistent volume for backups
+
+networks:
+  proxy:
+    external: true

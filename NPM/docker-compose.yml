@@ -11,6 +11,7 @@ services:
         - kasm_default_network
     ports:
       - '443:443'
+      - '81:81'
      
 networks:
   proxy:
