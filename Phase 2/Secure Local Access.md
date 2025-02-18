@@ -59,6 +59,45 @@ In this phase, we will enhance the security of our local access by implementing 
     sudo ufw status verbose
     ```
 
+## Disabling systemd-resolved for Adguard Home on Debian
+
+Most modern Debian-based distributions use `systemd-resolved` as a built-in DNS resolver that listens on port 53. To avoid conflicts when running a Adguard Home container, you need to disable this service.
+
+### Steps to Disable systemd-resolved
+
+1. **Access the Debian Server Command Line**  
+   Connect to your Debian server via SSH as the root user.
+
+2. **Modify systemd-resolved Configuration**  
+   Open the configuration file:
+   ```bash
+   nano /etc/systemd/resolved.conf
+   ```
+   Locate the following line:
+   ```
+   #DNSStubListener=yes
+   ```
+   Change it to:
+   ```
+   DNSStubListener=no
+   ```
+   *(Ensure you remove the `#` at the start of the line.)*  
+   Save and exit: Press `Ctrl+X`, then `Y`, and hit `Enter`.
+
+3. **Update resolv.conf Symlink**  
+   Run the following command to update the symlink:
+   ```bash
+   rm /etc/resolv.conf && ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+   ```
+
+4. **Restart systemd-resolved**  
+   Apply the changes by restarting the service:
+   ```bash
+   systemctl restart systemd-resolved
+   ```
+
+After completing these steps, `systemd-resolved` will stop listening on port 53, allowing Adguard Home to use it without conflicts.
+
 ## Conclusion
 We have successfully enhanced the security of our local access by configuring SSH for secure remote access, managing firewall settings with UFW, and ensuring that only authorized users can connect to our server. These steps have significantly improved the overall security posture of our system.
 
