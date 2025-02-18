@@ -81,7 +81,12 @@ Most modern Debian-based distributions use `systemd-resolved` as a built-in DNS 
    ```
    DNSStubListener=no
    ```
-   *(Ensure you remove the `#` at the start of the line.)*  
+   Next, specify your AdGuard container as the DNS provider by finding the `[Resolve]` section and adding or modifying the following line:
+   ```
+   DNS=192.168.0.05
+   ```
+   *(Replace `192.168.0.5` with the IP of your AdGuard container Host IP address.)*  
+   
    Save and exit: Press `Ctrl+X`, then `Y`, and hit `Enter`.
 
 3. **Update resolv.conf Symlink**  
